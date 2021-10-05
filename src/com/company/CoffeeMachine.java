@@ -1,8 +1,9 @@
 package com.company;
 
+import java.util.Locale;
 import java.util.Scanner;
 
-public class CoffeeMachine<menuChoiceInt> {
+public class CoffeeMachine {
 
 
     Scanner scanner = new Scanner(System.in);
@@ -21,49 +22,38 @@ public class CoffeeMachine<menuChoiceInt> {
     }
 
 
-    public int getCoffeeCount() {
-        return coffeeCount;
+    public void fillIngredient() {
+        this.water = 2.0;
+        this.milk = 2.0;
+        this.coffeePowder = 500.0;
+
     }
 
-    public void setCoffeeCount(int coffeeCount) {
-        this.coffeeCount = coffeeCount;
+    public void cleanMachine() {
+
+        this.water = 0.0;
+        this.milk = 0.0;
+        this.coffeePowder = 0.0;
     }
 
-    public double getWater() {
-        return water;
-    }
+    public void aCoffe() {  //TODO
 
-    public void setWater(double water) {
-        this.water = water;
-    }
-
-    public double getMilk() {
-        return milk;
-    }
-
-    public void setMilk(double milk) {
-        this.milk = milk;
-    }
-
-
-    public double getCoffeePowder() {
-        return coffeePowder;
-    }
-
-
-    public void setCoffeePowder(double coffeePowder) {
-        this.coffeePowder = coffeePowder; //TODO kolla plustecknet
+        this.water -= 0.2;
+        this.milk -= 0.2;
+        this.coffeePowder -= 20;
+        this.coffeeCount++;
+        menu();
     }
 
     public void start() {
         System.out.println("Want to Start Machine - Y or N?");
         String menuChoiceString = scanner.next();
-        switch (menuChoiceString) {
-            case "Y":
+        switch (menuChoiceString.toLowerCase(Locale.ROOT)) {
+            case "y":
                 System.out.println("COFFEE MACHINE");
                 menu();
                 break;
-            case "N":
+            case "n":
                 System.out.println("Closing the Coffee Machine!");
                 break;
         }
@@ -73,9 +63,6 @@ public class CoffeeMachine<menuChoiceInt> {
     public void menu() {
 
         System.out.println("Main Menu:");
-//        System.out.println("Available coffee: " + getCoffeePowder());
-//        System.out.println("Available milk: " + getMilk());
-//        System.out.println("Available water: " + getWater());
         System.out.println(" ---------------------");
         System.out.println("1. Status of Ingredients ");
         System.out.println("2. Fill Ingredient");
@@ -90,20 +77,20 @@ public class CoffeeMachine<menuChoiceInt> {
             case 1:
                 System.out.println("Status of ingredients: ");
                 System.out.println("---------------------------");
-                System.out.println("Available coffee: " + getCoffeePowder() + "g");
-                System.out.println("Available milk: " + getMilk() + "L");
-                System.out.println("Available water: " + getWater() + "L");
+                System.out.println("Available coffee: " + this.coffeePowder + "g");
+                System.out.println("Available milk: " + this.milk + "L");
+                System.out.println("Available water: " + this.water + "L");
                 menu();
                 break;
             case 2:
                 System.out.println("Filling Machine...");
-                FillIngredient fillIngredient = new FillIngredient();
-                fillIngredient.fillIngredient();
+                fillIngredient();
+                menu();
                 break;
             case 3:
                 System.out.println("Cleaning machine...");
-                CleanMachine cleanMachine = new CleanMachine();
-                cleanMachine.emptyMachine();
+                cleanMachine();
+                menu();
                 break;
             case 4:
                 System.out.println("Making Coffee...");
@@ -111,9 +98,16 @@ public class CoffeeMachine<menuChoiceInt> {
                 System.out.println("Taking 20g of Coffee Powder");
                 System.out.println("Taking 0.2l of water");
                 System.out.println("Taking 0.2l of milk");
-                MakeCoffee makeCoffee = new MakeCoffee();
-                makeCoffee.aCoffe();
+                aCoffe();
+                menu();
+                break;
+            case 5:
+                System.out.println("We have made: " + coffeeCount);
+                menu();
+                break;
+
         }
     }
-
 }
+
+
